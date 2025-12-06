@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hermandad de Jesús Nazareno, Señor Sepultado y Jesús Resucitado</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Encabezado -->
+  <header class="site-header">
+    <div class="left">
+      <img src="img/logohm.jpeg" alt="Logo Hermandad" class="logo">
+      <div class="titulo-wrap">
+        <h1 class="titulo">Hermandad de Jesús Nazareno, Señor Sepultado y Jesús Resucitado</h1>
+      </div>
+    </div>
+
+    <nav class="top-nav" aria-label="Menú principal">
+      <a href="#inicio" class="nav-item" data-target="inicio">Inicio</a>
+      <a href="#imagenes" class="nav-item" data-target="imagenes">Imágenes</a>
+      <a href="#contactos" class="nav-item" data-target="contactos">Contactos</a>
+      <a href="#ayuda" class="nav-item" data-target="ayuda">Ayuda</a>
+    </nav>
+  </header>
+
+  <div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Barra lateral">
+      <button class="acc-btn">Historia</button>
+      <button class="acc-btn">Jesús Nazareno</button>
+      <button class="acc-btn">Señor Sepultado</button>
+      <button class="acc-btn">Jesús Resucitado</button>
+
+      <div class="sidebar-bottom">
+        <h3>Contacto</h3>
+        <p>Coordinador: Jose Mendez</p>
+        <p>Subcoordinador: Mynor Mendez</p>
+        <p>Tel: +502 5862-6764</p>
+        <p>Dirección: Parroquia San José Pínula, Guatemala</p>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content" id="main-content" tabindex="-1">
+
+      <!-- Panel Inicio -->
+      <section id="inicio" class="panel active">
+        <h2>Consejo del Día</h2>
+        <p class="consejo-text">✝️ Mateo 28:19–20 
+          "Por tanto, id y haced discípulos a todas las naciones,
+          bautizándolos en el nombre del Padre, y del Hijo, y del Espíritu Santo;
+          enseñándoles que guarden todas las cosas que os he mandado;
+          y he aquí yo estoy con vosotros todos los días, hasta el fin del mundo."
+        </p>
+        <img src="img/ssplt.jpeg" alt="Imagen de reflexión" class="consejo-img">
+      </section>
+
+      <!-- Panel Imágenes -->
+      <section id="imagenes" class="panel" hidden>
+        <h2>Galería de Imágenes</h2>
+
+        <!-- Caja para subir imágenes -->
+        <div class="upload-box">
+          <input type="file" id="fileInput" accept="image/*">
+          <button id="uploadBtn">Subir Imagen</button>
+          <span id="uploadStatus"></span>
+        </div>
+
+        <!-- Galería -->
+        <div id="gallery-container" class="gallery"></div>
+      </section>
+
+      <!-- Panel Contactos -->
+      <section id="contactos" class="panel" hidden>
+        <h2 style="color: var(--gold);">📞 Contactos de la Hermandad</h2>
+        
+        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">👤 Coordinador</h3>
+          <p style="font-size: 1.1rem; margin: 0;">Jose Mendez</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">👥 Subcoordinador</h3>
+          <p style="font-size: 1.1rem; margin: 0;">Mynor Mendez</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">💰 Tesorero</h3>
+          <p style="font-size: 1.1rem; margin: 0;">Wiliam Garcia</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">📝 Secretaria</h3>
+          <p style="font-size: 1.1rem; margin: 0;">Andrea</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-top: 30px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">📍 Información General</h3>
+          <p style="margin: 10px 0;">📞 Teléfono: +502 5862-6764</p>
+          <p style="margin: 10px 0;">🏛️ Dirección: Parroquia San José Pínula, Guatemala</p>
+        </div>
+      </section>
+
+      <!-- Panel Ayuda -->
+      <section class="panel" id="ayuda" hidden>
+        <h2 style="color: var(--gold); margin-top:0;">Ayuda / Únete a Nuestra Hermandad</h2>
+
+        <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 10px; margin-bottom: 18px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">¿Necesitas ayuda?</h3>
+          <p>
+            Si estás pasando por un momento difícil, necesitas una oración o deseas hablar con alguien,
+            <strong>no estás solo.</strong> Nuestra Hermandad está aquí para escucharte, acompañarte y apoyarte.
+          </p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 10px; margin-bottom: 18px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">¿Quieres unirte?</h3>
+          <p>
+            Ser parte de nuestra Hermandad significa servir a Cristo y mantener vivas las tradiciones.
+          </p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 10px; margin-bottom: 18px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">¿Qué ofrecemos?</h3>
+          <ul style="color: var(--text); margin-left: 18px;">
+            <li>Acompañamiento espiritual</li>
+            <li>Formación cristiana</li>
+            <li>Participación en procesiones</li>
+            <li>Comunidad y fraternidad</li>
+          </ul>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.03); padding: 16px; border-radius: 10px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">¿Cómo unirte?</h3>
+          <p>
+            📞 Teléfono: +502 5862-6764 <br>
+            📩 Correo: hermandad@parroquiasjp.com <br>
+            📍 Dirección: Parroquia San José, San José Pinula
+          </p>
+        </div>
+      </section>
+
+      <!-- Panel Historia -->
+      <section id="historia" class="panel" hidden>
+        <h2 style="color: var(--gold);">📜 Historia de la Hermandad</h2>
+        
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">La Iglesia Antigua de San José Pinula</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          Fue construida por los jesuitas entre finales del siglo XVII y principios del XVIII. Los jesuitas fueron enviados a la Hacienda de Canales, actual San José Pinula, para cultivar la tierra.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">La Iglesia como Patrimonio Cultural</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          <strong>Declaratoria oficial:</strong> El 13 de julio de 2003, la iglesia y su atrio fueron declarados Patrimonio Cultural de la Nación por su valor histórico, artístico y arquitectónico.
+        </p>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          <strong>Resiliencia:</strong> El edificio ha soportado varios terremotos a lo largo de su historia. Una fotografía de 1976 muestra la fachada tras el devastador terremoto de ese año, evidenciando los daños que sufrió.
+        </p>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          <strong>Abandono y restauración:</strong> Después del terremoto de 1976, los habitantes construyeron una iglesia nueva y abandonaron la antigua. Durante 30 años, la estructura quedó en ruinas.
+        </p>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          <strong>Recuperación:</strong> En 1998, se propuso rescatar la iglesia, descubriendo que tenía al menos 300 años de antigüedad. En 2005, el Instituto de Antropología e Historia, junto con la municipalidad, inició los trabajos de reconstrucción.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">La Reconstrucción y su Arquitectura</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          <strong>Refuerzo estructural:</strong> Las paredes de adobe, piedra y arcilla que sobrevivieron al terremoto fueron reforzadas con acero.
+        </p>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          <strong>Materiales:</strong> Se agregaron vigas nuevas y se rellenaron las grietas con arena amarilla y cal.
+        </p>
+      </section>
+
+      <!-- Jesús Nazareno -->
+      <section id="jesus-nazareno" class="panel" hidden>
+        <h2 style="color: var(--gold);">✝️ Jesús Nazareno</h2>
+        
+        <p style="line-height: 1.8; margin-bottom: 1.5rem;">
+          La imagen de Jesús Nazareno es una figura central de la fe católica, y en San José Pinula, al igual que en muchas localidades de Guatemala, goza de una profunda veneración.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Devoción en Semana Santa</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          La imagen de Jesús Nazareno es la protagonista de las procesiones durante la Cuaresma y la Semana Santa en San José Pinula. Estas procesiones son eventos de gran arraigo popular, donde los feligreses acompañan la imagen en su recorrido, cargando las andas en un acto de fe y penitencia.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Iconografía</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          La imagen representa a Jesús cargando la cruz en su camino hacia el Calvario. Típicamente, estas esculturas son de "vestir", con el rostro, manos y pies policromados (pintados), y el resto del cuerpo diseñado para llevar vestiduras de tela, lo que le otorga un gran realismo.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Eventos Importantes</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          Además de los cortejos procesionales, la imagen es objeto de velaciones y misas especiales durante el año, que refuerzan la devoción local.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Historia Compartida</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          Si bien no existe una "historia" única y documentada de esa imagen específica más allá de la tradición oral, su importancia radica en que la devoción al Nazareno es parte integral de la identidad religiosa del municipio, complementando la historia del Señor Sepultado y la Antigua Iglesia.
+        </p>
+      </section>
+
+      <!-- Señor Sepultado -->
+      <section id="senor-sepultado" class="panel" hidden>
+        <h2 style="color: var(--gold);">🕯️ Señor Sepultado</h2>
+        
+        <p style="line-height: 1.8; margin-bottom: 1.5rem;">
+          La imagen del Señor Sepultado de San José Pinula es una figura de gran devoción y tradición en el municipio. Su historia está ligada a la comunidad y sus prácticas de Semana Santa.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Procesión sin Urna</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          Una característica distintiva de esta imagen es que, a partir del Viernes Santo de 1956, comenzó a ser procesionada sin urna, directamente sobre sus andas, para agregar dramatismo al cortejo del Santo Entierro.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Veneración Especial</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          La imagen es venerada de manera particular tanto durante la Semana Santa (Viernes Santo) como en la conmemoración de Todos los Santos y los Fieles Difuntos.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Restauración y Consagración</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          En 2010, la imagen fue sometida a un proceso de restauración. Su regreso tras varios meses de trabajos fue celebrado con una procesión extraordinaria que salió de la Antigua Iglesia hacia la parroquia principal.
+        </p>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          Posteriormente, la imagen fue consagrada el domingo 3 de noviembre de 2013, un acto significativo que resalta su importancia para los feligreses locales.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Tradición y Devoción</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          El "Sepultado Pinulteco" es objeto de un gran fervor popular. Existen relatos y recuerdos compartidos por los habitantes sobre la devoción y el adorno de sus andas procesionales a lo largo de las décadas, lo que demuestra la profundidad de su arraigo en la comunidad.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Eventos Anuales</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          La velación anual del Señor Sepultado, que se realiza el día de Todos los Santos, incluye conciertos de marchas fúnebres y una procesión intramuros solemne.
+        </p>
+      </section>
+
+      <!-- Jesús Resucitado -->
+      <section id="jesus-resucitado" class="panel" hidden>
+        <h2 style="color: var(--gold);">🌅 Jesús Resucitado</h2>
+        
+        <p style="line-height: 1.8; margin-bottom: 1.5rem;">
+          La imagen de Jesús Resucitado representa el triunfo de la vida sobre la muerte y es el centro de la celebración de la Pascua en San José Pinula. A diferencia de las imágenes de la Cuaresma y el Viernes Santo, que evocan penitencia y dolor, esta imagen se celebra con algarabía, cantos de alabanza y vestiduras de colores claros.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Tradición y Celebración</h3>
+        
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          <strong>Procesión Festiva:</strong> La procesión de Jesús Resucitado es un evento principal del Domingo de Resurrección. El cortejo se caracteriza por un ambiente de alegría, con acompañamiento de jóvenes y música festiva, a menudo con la participación de bandas que interpretan alabanzas en lugar de marchas fúnebres.
+        </p>
+
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          <strong>Simbolismo:</strong> Las andas procesionales suelen ser adornadas con ángeles y estandartes blancos, simbolizando la luz y la nueva vida que representan la resurrección de Cristo.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Eventos Anuales</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          Más allá del Domingo de Resurrección, la imagen también ha sido parte de importantes celebraciones, como la Solemnidad de la Ascensión del Señor, donde ha realizado recorridos por el municipio en diversas ocasiones.
+        </p>
+
+        <h3 style="color: var(--gold); margin-top: 1.5rem;">Arraigo Comunitario</h3>
+        <p style="line-height: 1.8; margin-bottom: 1rem;">
+          Al igual que el Señor Sepultado y Jesús Nazareno, la imagen del Resucitado tiene un profundo arraigo en la comunidad católica de San José Pinula, y su procesión es un momento culminante del calendario litúrgico local.
+        </p>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Teléfono: +502 5862-6764 – Dirección: Parroquia San José Pínula, Guatemala</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
