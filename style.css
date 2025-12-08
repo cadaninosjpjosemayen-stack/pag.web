@@ -154,6 +154,30 @@ html, body {
 .panel h2 {
   margin-top: 0;
   color: var(--gold);
+  font-size: 1.5rem;
+}
+
+.panel h3 {
+  color: var(--gold);
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+}
+
+.panel p {
+  line-height: 1.8;
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+.consejo-text {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 1.5rem;
+  border-left: 4px solid var(--gold);
+  border-radius: 5px;
+  font-style: italic;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
 }
 
 .consejo-img {
@@ -161,7 +185,7 @@ html, body {
   max-width: 300px;
   border-radius: var(--radius);
   margin-top: 16px;
-  border: 2px solid var(--bg);
+  border: 2px solid var(--gold);
 }
 
 /* Upload Box */
@@ -229,15 +253,12 @@ html, body {
   transition: transform 0.3s;
   background: rgba(212, 175, 55, 0.05);
   aspect-ratio: 1 / 1;
+  cursor: pointer;
 }
 
 .gallery-item:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-}
-
-.gallery-item:hover .delete-btn {
-  opacity: 1;
 }
 
 .uploaded-img {
@@ -271,10 +292,13 @@ html, body {
   border-top: 2px solid var(--gold);
 }
 
-/* Responsividad */
+/* ========================================
+   RESPONSIVIDAD PARA MÓVIL
+======================================== */
 @media (max-width: 800px) {
   .layout {
     flex-direction: column;
+    height: auto;
   }
   
   .sidebar {
@@ -289,10 +313,20 @@ html, body {
     padding-top: 15px;
   }
   
+  .sidebar-bottom h3 {
+    font-size: 0.95rem;
+  }
+  
+  .sidebar-bottom p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  
   .main-content {
     margin-top: 0;
     padding: 15px;
     height: auto;
+    overflow: visible;
   }
   
   .panel {
@@ -305,6 +339,28 @@ html, body {
     transition: none !important;
     max-height: none;
     overflow-y: visible;
+    padding: 15px;
+  }
+  
+  .panel h2 {
+    font-size: 1.3rem;
+  }
+  
+  .panel h3 {
+    font-size: 1.1rem;
+    margin-top: 1.2rem;
+  }
+  
+  .panel p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-align: left;
+  }
+  
+  .consejo-text {
+    padding: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
   
   .site-header {
@@ -316,6 +372,8 @@ html, body {
   .left {
     width: 100%;
     justify-content: center;
+    flex-direction: column;
+    text-align: center;
   }
   
   .logo {
@@ -337,12 +395,12 @@ html, body {
   
   .top-nav .nav-item {
     padding: 6px 10px;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
   
   .gallery {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
     padding: 5px;
   }
   
@@ -366,19 +424,61 @@ html, body {
   #fileInput {
     width: 100%;
     min-width: auto;
+    font-size: 0.9rem;
   }
   
   #uploadBtn {
     width: 100%;
+    padding: 12px;
+    font-size: 0.95rem;
   }
   
   .acc-btn {
     font-size: 0.95rem;
-    padding: 8px;
+    padding: 10px;
   }
   
   .site-footer {
     font-size: 0.85rem;
-    padding: 10px;
+    padding: 12px 10px;
+    line-height: 1.6;
+  }
+}
+
+/* MÓVILES MUY PEQUEÑOS (menos de 400px) */
+@media (max-width: 400px) {
+  .titulo {
+    font-size: 0.75rem;
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .panel {
+    padding: 12px;
+  }
+  
+  .panel h2 {
+    font-size: 1.1rem;
+  }
+  
+  .panel h3 {
+    font-size: 1rem;
+  }
+  
+  .panel p {
+    font-size: 0.9rem;
+  }
+  
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .top-nav .nav-item {
+    padding: 5px 8px;
+    font-size: 0.8rem;
   }
 }
