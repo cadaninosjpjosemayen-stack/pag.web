@@ -13,7 +13,7 @@
     <div class="left">
       <img src="img/logohm.jpeg" alt="Logo Hermandad" class="logo">
       <div class="titulo-wrap">
-        <h1 class="titulo">Hermandad de Jesús Nazareno, Señor Sepultado y Jesús Resucitado.</h1>
+        <h1 class="titulo">Hermandad de Jesús Nazareno, Señor Sepultado y Jesús Resucitado</h1>
       </div>
     </div>
 
@@ -94,13 +94,82 @@
 
         <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-bottom: 20px; border-left: 3px solid var(--gold);">
           <h3 style="color: var(--gold); margin-top:0;">📝 Secretaria</h3>
-          <p style="font-size: 1.1rem; margin: 0;">Andrea Rustrian</p>
+          <p style="font-size: 1.1rem; margin: 0;">Andrea</p>
         </div>
 
-        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-top: 30px; border-left: 3px solid var(--gold);">
+        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-bottom: 30px; border-left: 3px solid var(--gold);">
           <h3 style="color: var(--gold); margin-top:0;">📍 Información General</h3>
           <p style="margin: 10px 0;">📞 Teléfono: +502 5862-6764</p>
           <p style="margin: 10px 0;">🏛️ Dirección: Parroquia San José Pínula, Guatemala</p>
+        </div>
+
+        <!-- FORMULARIO DE AGENDAR CITA -->
+        <div style="background: rgba(212, 175, 55, 0.1); padding: 25px; border-radius: 10px; border: 2px solid var(--gold); margin-top: 30px;">
+          <h2 style="color: var(--gold); margin-top: 0; text-align: center;">📅 Agendar una Cita</h2>
+          <p style="text-align: center; color: #aaa; margin-bottom: 25px;">Complete el formulario para solicitar una cita con la Hermandad</p>
+
+          <form id="citaForm" style="display: flex; flex-direction: column; gap: 15px;">
+            
+            <div>
+              <label style="color: var(--gold); font-weight: bold; display: block; margin-bottom: 5px;">Nombre *</label>
+              <input type="text" id="nombre" name="nombre" required 
+                style="width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--gold); border-radius: 5px; color: var(--text); font-size: 1rem;">
+            </div>
+
+            <div>
+              <label style="color: var(--gold); font-weight: bold; display: block; margin-bottom: 5px;">Apellido *</label>
+              <input type="text" id="apellido" name="apellido" required 
+                style="width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--gold); border-radius: 5px; color: var(--text); font-size: 1rem;">
+            </div>
+
+            <div>
+              <label style="color: var(--gold); font-weight: bold; display: block; margin-bottom: 5px;">Teléfono *</label>
+              <input type="tel" id="telefono" name="telefono" required placeholder="+502 1234-5678"
+                style="width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--gold); border-radius: 5px; color: var(--text); font-size: 1rem;">
+            </div>
+
+            <div>
+              <label style="color: var(--gold); font-weight: bold; display: block; margin-bottom: 5px;">Fecha *</label>
+              <input type="date" id="fecha" name="fecha" required 
+                style="width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--gold); border-radius: 5px; color: var(--text); font-size: 1rem;">
+            </div>
+
+            <div>
+              <label style="color: var(--gold); font-weight: bold; display: block; margin-bottom: 5px;">Horario * (8:00 AM - 4:00 PM)</label>
+              <select id="horario" name="horario" required 
+                style="width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--gold); border-radius: 5px; color: var(--text); font-size: 1rem;">
+                <option value="">Seleccione un horario</option>
+                <option value="08:00">8:00 AM</option>
+                <option value="09:00">9:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="13:00">1:00 PM</option>
+                <option value="14:00">2:00 PM</option>
+                <option value="15:00">3:00 PM</option>
+                <option value="16:00">4:00 PM</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="color: var(--gold); font-weight: bold; display: block; margin-bottom: 5px;">Motivo de la cita (opcional)</label>
+              <textarea id="motivo" name="motivo" rows="3" 
+                style="width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--gold); border-radius: 5px; color: var(--text); font-size: 1rem; resize: vertical;"></textarea>
+            </div>
+
+            <button type="submit" 
+              style="background: var(--gold); color: #000; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: transform 0.2s;">
+              📅 Agendar Cita
+            </button>
+
+            <div id="mensajeCita" style="text-align: center; font-weight: bold; margin-top: 10px;"></div>
+          </form>
+        </div>
+
+        <!-- LISTA DE CITAS AGENDADAS -->
+        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 10px; margin-top: 30px; border-left: 3px solid var(--gold);">
+          <h3 style="color: var(--gold); margin-top:0;">📋 Mis Citas Agendadas</h3>
+          <div id="listaCitas" style="margin-top: 15px;"></div>
         </div>
       </section>
 
@@ -138,7 +207,7 @@
           <p>
             📞 Teléfono: +502 5862-6764 <br>
             📩 Correo: hermandad@parroquiasjp.com <br>
-            📍 Dirección: Parroquia San José, San José Pinula Guatemala
+            📍 Dirección: Parroquia San José, San José Pinula
           </p>
         </div>
       </section>

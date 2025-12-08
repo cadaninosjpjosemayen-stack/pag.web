@@ -306,3 +306,211 @@ if (uploadBtn && imageInput) {
 if (gallery) {
   crearGaleria();
 }
+
+/* =======================================================
+🚀 SISTEMA DE AGENDAMIENTO DE CITAS
+======================================================= */
+
+// Array para almacenar las citas (en una app real esto sería una base de datos)
+let citas = JSON.parse(localStorage.getItem('citas')) || [];
+
+// Función para validar días de la semana (Lunes a Viernes)
+function esDiaHabil(fecha) {
+  const dia = fecha.getDay();
+  return dia >= 1 && dia <= 5; // 1=Lunes, 5=Viernes
+}
+
+// Función para verificar si un horario está ocupado
+function horarioOcupado(fecha, horario) {
+  return citas.some(cita => cita.fecha === fecha && cita.horario === horario);
+}
+
+// Función para mostrar las citas
+function mostrarCitas() {
+  const listaCitas = document.getElementById('listaCitas');
+  
+  if (!listaCitas) return;
+  
+  if (citas.length === 0) {
+    listaCitas.innerHTML = '<p style="color: #aaa; text-align: center;">No hay citas agendadas</p>';
+    return;
+  }
+  
+  // Ordenar citas por fecha y hora
+  citas.sort((a, b) => {
+    const fechaA = new Date(a.fecha + ' ' + a.horario);
+    const fechaB = new Date(b.fecha + ' ' + b.horario);
+    return fechaA - fechaB;
+  });
+  
+  let html = '';
+  citas.forEach((cita, index) => {
+    const fechaObj = new Date(cita.fecha + 'T00:00:00');
+    const fechaFormateada = fechaObj.toLocaleDateString('es-GT', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
+    
+    // Convertir hora 24h a 12h
+    let [hora, minutos] = cita.horario.split(':');
+    hora = parseInt(hora);
+    const periodo = hora >= 12 ? 'PM' : 'AM';
+    hora = hora > 12 ? hora - 12 : hora;
+    hora = hora === 0 ? 12 : hora;
+    const horaFormateada = `${hora}:${minutos} ${periodo}`;
+    
+    html += `
+      <div style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--gold);">
+        <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
+          <div style="flex: 1;">
+            <p style="margin: 5px 0; font-size: 1.05rem;"><strong style="color: var(--gold);">👤 Nombre:</strong> ${cita.nombre} ${cita.apellido}</p>
+            <p style="margin: 5px 0;"><strong style="color: var(--gold);">📞 Teléfono:</strong> ${cita.telefono}</p>
+            <p style="margin: 5px 0;"><strong style="color: var(--gold);">📅 Fecha:</strong> ${fechaFormateada}</p>
+            <p style="margin: 5px 0;"><strong style="color: var(--gold);">🕐 Hora:</strong> ${horaFormateada}</p>
+            ${cita.motivo ? `<p style="margin: 5px 0;"><strong style="color: var(--gold);">📝 Motivo:</strong> ${cita.motivo}</p>` : ''}
+          </div>
+          <button onclick="cancelarCita(${index})" 
+            style="background: #c0392b; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.2s;">
+            ❌ Cancelar
+          </button>
+        </div>
+      </div>
+    `;
+  });
+  
+  listaCitas.innerHTML = html;
+}
+
+// Función para cancelar cita
+function cancelarCita(index) {
+  if (confirm('¿Está seguro que desea cancelar esta cita?')) {
+    citas.splice(index, 1);
+    localStorage.setItem('citas', JSON.stringify(citas));
+    mostrarCitas();
+    mostrarMensaje('✅ Cita cancelada exitosamente', 'success');
+  }
+}
+
+// Función para mostrar mensajes
+function mostrarMensaje(mensaje, tipo) {
+  const mensajeDiv = document.getElementById('mensajeCita');
+  if (!mensajeDiv) return;
+  
+  mensajeDiv.textContent = mensaje;
+  mensajeDiv.style.color = tipo === 'success' ? '#2ecc71' : '#e74c3c';
+  mensajeDiv.style.fontSize = '1.1rem';
+  
+  setTimeout(() => {
+    mensajeDiv.textContent = '';
+  }, 5000);
+}
+
+// Configurar fecha mínima (hoy)
+const fechaInput = document.getElementById('fecha');
+if (fechaInput) {
+  const hoy = new Date();
+  const año = hoy.getFullYear();
+  const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+  const dia = String(hoy.getDate()).padStart(2, '0');
+  fechaInput.min = `${año}-${mes}-${dia}`;
+}
+
+// Evento para actualizar horarios disponibles cuando se selecciona una fecha
+if (fechaInput) {
+  fechaInput.addEventListener('change', function() {
+    const fechaSeleccionada = new Date(this.value + 'T00:00:00');
+    const horarioSelect = document.getElementById('horario');
+    
+    if (!horarioSelect) return;
+    
+    // Verificar si es día hábil
+    if (!esDiaHabil(fechaSeleccionada)) {
+      mostrarMensaje('⚠️ Solo se pueden agendar citas de Lunes a Viernes', 'error');
+      this.value = '';
+      return;
+    }
+    
+    // Actualizar opciones de horario
+    const horarios = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+    const horariosNombres = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+    
+    horarioSelect.innerHTML = '<option value="">Seleccione un horario</option>';
+    
+    horarios.forEach((horario, index) => {
+      const option = document.createElement('option');
+      option.value = horario;
+      option.textContent = horariosNombres[index];
+      
+      // Deshabilitar si el horario está ocupado
+      if (horarioOcupado(this.value, horario)) {
+        option.disabled = true;
+        option.textContent += ' (Ocupado)';
+        option.style.color = '#999';
+      }
+      
+      horarioSelect.appendChild(option);
+    });
+  });
+}
+
+// Manejar el envío del formulario
+const citaForm = document.getElementById('citaForm');
+if (citaForm) {
+  citaForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const nombre = document.getElementById('nombre').value.trim();
+    const apellido = document.getElementById('apellido').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const fecha = document.getElementById('fecha').value;
+    const horario = document.getElementById('horario').value;
+    const motivo = document.getElementById('motivo').value.trim();
+    
+    // Validaciones
+    if (!nombre || !apellido || !telefono || !fecha || !horario) {
+      mostrarMensaje('⚠️ Por favor complete todos los campos obligatorios', 'error');
+      return;
+    }
+    
+    // Verificar día hábil
+    const fechaObj = new Date(fecha + 'T00:00:00');
+    if (!esDiaHabil(fechaObj)) {
+      mostrarMensaje('⚠️ Solo se pueden agendar citas de Lunes a Viernes', 'error');
+      return;
+    }
+    
+    // Verificar si el horario ya está ocupado
+    if (horarioOcupado(fecha, horario)) {
+      mostrarMensaje('⚠️ Este horario ya está ocupado. Por favor elija otro.', 'error');
+      return;
+    }
+    
+    // Crear la cita
+    const nuevaCita = {
+      nombre,
+      apellido,
+      telefono,
+      fecha,
+      horario,
+      motivo,
+      id: Date.now()
+    };
+    
+    citas.push(nuevaCita);
+    localStorage.setItem('citas', JSON.stringify(citas));
+    
+    // Limpiar formulario
+    citaForm.reset();
+    
+    // Mostrar mensaje de éxito
+    mostrarMensaje('✅ ¡Cita agendada exitosamente!', 'success');
+    
+    // Actualizar lista de citas
+    mostrarCitas();
+  });
+}
+
+// Mostrar citas al cargar la página
+mostrarCitas();
