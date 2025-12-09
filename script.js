@@ -321,8 +321,48 @@ function esDiaHabil(fecha) {
 }
 
 // Función para verificar si un horario está ocupado
-function horarioOcupado(fecha, horario) {
-  return citas.some(cita => cita.fecha === fecha && cita.horario === horario);
+function horarioOcupado(fecha, horario, excluirId = null) {
+  return citas.some(cita => 
+    cita.fecha === fecha && 
+    cita.horario === horario && 
+    cita.id !== excluirId
+  );
+}
+
+// Función para actualizar los horarios disponibles
+function actualizarHorariosDisponibles() {
+  const fechaInput = document.getElementById('fecha');
+  const horarioSelect = document.getElementById('horario');
+  
+  if (!fechaInput || !horarioSelect || !fechaInput.value) return;
+  
+  const fecha = fechaInput.value;
+  const citaIdEditando = document.getElementById('citaIdEditando')?.value;
+  
+  const horarios = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+  const horariosNombres = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+  
+  const horarioActual = horarioSelect.value;
+  horarioSelect.innerHTML = '<option value="">Seleccione un horario</option>';
+  
+  horarios.forEach((horario, index) => {
+    const option = document.createElement('option');
+    option.value = horario;
+    option.textContent = horariosNombres[index];
+    
+    // Deshabilitar si el horario está ocupado (excepto si estamos editando esa cita)
+    if (horarioOcupado(fecha, horario, citaIdEditando ? parseInt(citaIdEditando) : null)) {
+      option.disabled = true;
+      option.textContent += ' ❌ (Ocupado)';
+      option.style.color = '#e74c3c';
+    }
+    
+    if (horario === horarioActual) {
+      option.selected = true;
+    }
+    
+    horarioSelect.appendChild(option);
+  });
 }
 
 // Función para mostrar las citas
@@ -332,7 +372,7 @@ function mostrarCitas() {
   if (!listaCitas) return;
   
   if (citas.length === 0) {
-    listaCitas.innerHTML = '<p style="color: #aaa; text-align: center;">No hay citas agendadas</p>';
+    listaCitas.innerHTML = '<p style="color: #aaa; text-align: center; padding: 20px;">No hay citas agendadas</p>';
     return;
   }
   
@@ -364,17 +404,23 @@ function mostrarCitas() {
     html += `
       <div style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--gold);">
         <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 10px;">
-          <div style="flex: 1;">
+          <div style="flex: 1; min-width: 200px;">
             <p style="margin: 5px 0; font-size: 1.05rem;"><strong style="color: var(--gold);">👤 Nombre:</strong> ${cita.nombre} ${cita.apellido}</p>
             <p style="margin: 5px 0;"><strong style="color: var(--gold);">📞 Teléfono:</strong> ${cita.telefono}</p>
             <p style="margin: 5px 0;"><strong style="color: var(--gold);">📅 Fecha:</strong> ${fechaFormateada}</p>
             <p style="margin: 5px 0;"><strong style="color: var(--gold);">🕐 Hora:</strong> ${horaFormateada}</p>
             ${cita.motivo ? `<p style="margin: 5px 0;"><strong style="color: var(--gold);">📝 Motivo:</strong> ${cita.motivo}</p>` : ''}
           </div>
-          <button onclick="cancelarCita(${index})" 
-            style="background: #c0392b; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.2s;">
-            ❌ Cancelar
-          </button>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button onclick="editarCita(${index})" 
+              style="background: #3498db; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.2s;">
+              ✏️ Editar
+            </button>
+            <button onclick="cancelarCita(${index})" 
+              style="background: #c0392b; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.2s;">
+              ❌ Cancelar
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -383,12 +429,90 @@ function mostrarCitas() {
   listaCitas.innerHTML = html;
 }
 
+// Función para editar cita
+function editarCita(index) {
+  const cita = citas[index];
+  
+  // Llenar el formulario con los datos de la cita
+  document.getElementById('nombre').value = cita.nombre;
+  document.getElementById('apellido').value = cita.apellido;
+  document.getElementById('telefono').value = cita.telefono;
+  document.getElementById('fecha').value = cita.fecha;
+  document.getElementById('motivo').value = cita.motivo || '';
+  
+  // Crear campo oculto para saber que estamos editando
+  let idInput = document.getElementById('citaIdEditando');
+  if (!idInput) {
+    idInput = document.createElement('input');
+    idInput.type = 'hidden';
+    idInput.id = 'citaIdEditando';
+    document.getElementById('citaForm').appendChild(idInput);
+  }
+  idInput.value = cita.id;
+  
+  // Actualizar horarios y seleccionar el horario de la cita
+  actualizarHorariosDisponibles();
+  document.getElementById('horario').value = cita.horario;
+  
+  // Cambiar el botón de submit
+  const submitBtn = document.querySelector('#citaForm button[type="submit"]');
+  submitBtn.textContent = '✏️ Actualizar Cita';
+  submitBtn.style.background = '#3498db';
+  
+  // Agregar botón de cancelar edición
+  let cancelBtn = document.getElementById('cancelarEdicionBtn');
+  if (!cancelBtn) {
+    cancelBtn = document.createElement('button');
+    cancelBtn.id = 'cancelarEdicionBtn';
+    cancelBtn.type = 'button';
+    cancelBtn.textContent = '❌ Cancelar Edición';
+    cancelBtn.style.cssText = 'background: #95a5a6; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: transform 0.2s; margin-top: 10px; width: 100%;';
+    cancelBtn.onclick = cancelarEdicion;
+    submitBtn.parentElement.insertBefore(cancelBtn, submitBtn.nextSibling);
+  }
+  
+  // Scroll al formulario
+  document.getElementById('citaForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  
+  mostrarMensaje('✏️ Editando cita. Modifique los campos y presione "Actualizar Cita"', 'success');
+}
+
+// Función para cancelar la edición
+function cancelarEdicion() {
+  document.getElementById('citaForm').reset();
+  
+  const idInput = document.getElementById('citaIdEditando');
+  if (idInput) idInput.remove();
+  
+  const cancelBtn = document.getElementById('cancelarEdicionBtn');
+  if (cancelBtn) cancelBtn.remove();
+  
+  const submitBtn = document.querySelector('#citaForm button[type="submit"]');
+  submitBtn.textContent = '📅 Agendar Cita';
+  submitBtn.style.background = 'var(--gold)';
+  
+  const horarioSelect = document.getElementById('horario');
+  horarioSelect.innerHTML = '<option value="">Seleccione un horario</option>';
+  
+  mostrarMensaje('❌ Edición cancelada', 'error');
+}
+
 // Función para cancelar cita
 function cancelarCita(index) {
-  if (confirm('¿Está seguro que desea cancelar esta cita?')) {
+  const cita = citas[index];
+  const fechaObj = new Date(cita.fecha + 'T00:00:00');
+  const fechaFormateada = fechaObj.toLocaleDateString('es-GT', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+  
+  if (confirm(`¿Está seguro que desea cancelar la cita de ${cita.nombre} ${cita.apellido} el ${fechaFormateada}?`)) {
     citas.splice(index, 1);
     localStorage.setItem('citas', JSON.stringify(citas));
     mostrarCitas();
+    actualizarHorariosDisponibles();
     mostrarMensaje('✅ Cita cancelada exitosamente', 'success');
   }
 }
@@ -415,15 +539,10 @@ if (fechaInput) {
   const mes = String(hoy.getMonth() + 1).padStart(2, '0');
   const dia = String(hoy.getDate()).padStart(2, '0');
   fechaInput.min = `${año}-${mes}-${dia}`;
-}
-
-// Evento para actualizar horarios disponibles cuando se selecciona una fecha
-if (fechaInput) {
+  
+  // Evento para actualizar horarios cuando cambia la fecha
   fechaInput.addEventListener('change', function() {
     const fechaSeleccionada = new Date(this.value + 'T00:00:00');
-    const horarioSelect = document.getElementById('horario');
-    
-    if (!horarioSelect) return;
     
     // Verificar si es día hábil
     if (!esDiaHabil(fechaSeleccionada)) {
@@ -432,26 +551,8 @@ if (fechaInput) {
       return;
     }
     
-    // Actualizar opciones de horario
-    const horarios = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
-    const horariosNombres = ['8:00 AM', '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
-    
-    horarioSelect.innerHTML = '<option value="">Seleccione un horario</option>';
-    
-    horarios.forEach((horario, index) => {
-      const option = document.createElement('option');
-      option.value = horario;
-      option.textContent = horariosNombres[index];
-      
-      // Deshabilitar si el horario está ocupado
-      if (horarioOcupado(this.value, horario)) {
-        option.disabled = true;
-        option.textContent += ' (Ocupado)';
-        option.style.color = '#999';
-      }
-      
-      horarioSelect.appendChild(option);
-    });
+    // Actualizar horarios disponibles
+    actualizarHorariosDisponibles();
   });
 }
 
@@ -467,6 +568,7 @@ if (citaForm) {
     const fecha = document.getElementById('fecha').value;
     const horario = document.getElementById('horario').value;
     const motivo = document.getElementById('motivo').value.trim();
+    const citaIdEditando = document.getElementById('citaIdEditando')?.value;
     
     // Validaciones
     if (!nombre || !apellido || !telefono || !fecha || !horario) {
@@ -481,31 +583,51 @@ if (citaForm) {
       return;
     }
     
-    // Verificar si el horario ya está ocupado
-    if (horarioOcupado(fecha, horario)) {
+    // Verificar si el horario ya está ocupado (excepto si estamos editando)
+    if (horarioOcupado(fecha, horario, citaIdEditando ? parseInt(citaIdEditando) : null)) {
       mostrarMensaje('⚠️ Este horario ya está ocupado. Por favor elija otro.', 'error');
       return;
     }
     
-    // Crear la cita
-    const nuevaCita = {
-      nombre,
-      apellido,
-      telefono,
-      fecha,
-      horario,
-      motivo,
-      id: Date.now()
-    };
+    if (citaIdEditando) {
+      // ACTUALIZAR cita existente
+      const index = citas.findIndex(c => c.id === parseInt(citaIdEditando));
+      if (index !== -1) {
+        citas[index] = {
+          ...citas[index],
+          nombre,
+          apellido,
+          telefono,
+          fecha,
+          horario,
+          motivo
+        };
+        mostrarMensaje('✅ ¡Cita actualizada exitosamente!', 'success');
+      }
+      
+      // Limpiar modo edición
+      cancelarEdicion();
+    } else {
+      // CREAR nueva cita
+      const nuevaCita = {
+        nombre,
+        apellido,
+        telefono,
+        fecha,
+        horario,
+        motivo,
+        id: Date.now()
+      };
+      
+      citas.push(nuevaCita);
+      mostrarMensaje('✅ ¡Cita agendada exitosamente!', 'success');
+    }
     
-    citas.push(nuevaCita);
     localStorage.setItem('citas', JSON.stringify(citas));
     
     // Limpiar formulario
     citaForm.reset();
-    
-    // Mostrar mensaje de éxito
-    mostrarMensaje('✅ ¡Cita agendada exitosamente!', 'success');
+    document.getElementById('horario').innerHTML = '<option value="">Seleccione un horario</option>';
     
     // Actualizar lista de citas
     mostrarCitas();
